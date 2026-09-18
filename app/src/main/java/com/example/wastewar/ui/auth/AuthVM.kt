@@ -1,6 +1,7 @@
 package com.example.wastewar.ui.auth
 
 import android.app.Application
+import android.util.Log
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -43,6 +44,7 @@ class AuthVM(application: Application): AndroidViewModel(application) {
                 }
             }catch (e:Exception){
                 _authState.value=AuthState.Error(e.message ?: "Something went wrong")
+                Log.d("e" , e.message.toString())
                 }
             }
 

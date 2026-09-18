@@ -47,6 +47,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.wastewar.Screens
 
 
 // --- Custom Theme Colors ---
@@ -291,11 +292,12 @@ fun Register(rootNavController: NavController){
                             color=Color.Black,
                             style = MaterialTheme.typography.titleMedium
                         )
+
                     }
 
                     is AuthState.Success -> {
 
-                        //rootNavController.navigate(Screens.UserDetailsScreen.route)
+                        rootNavController.navigate(Screens.HomeScreen.routes)
 
                         Text(
                             text = "Success",
@@ -319,7 +321,7 @@ fun Register(rootNavController: NavController){
                     style = MaterialTheme.typography.bodyMedium,
                     // color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
-                TextButton(onClick = {  }) {
+                TextButton(onClick = { rootNavController.navigate(Screens.Login.routes) }) {
                     Text(
                         text = "Log In",
                         color=Color.Black,

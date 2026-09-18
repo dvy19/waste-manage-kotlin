@@ -1,4 +1,4 @@
-package com.example.wastewar.ui.userDetails
+package com.example.wastewar.ui.user.item
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -10,6 +10,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -21,7 +22,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -31,42 +31,40 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.example.wastewar.ui.auth.MeadowGreen
+import com.example.wastewar.ui.auth.SageOutline
 import com.example.wastewar.ui.auth.SessionManager
+import com.example.wastewar.ui.auth.SoftLeafGreen
 import com.example.wastewar.ui.createImagePart
-import kotlinx.coroutines.flow.compose
-
-
-val ForestGreen = Color(0xFF1E3A27)
-val MeadowGreen = Color(0xFF2E6F40)
-val SoftLeafGreen = Color(0xFFE8F2EA)
-val SageOutline = Color(0xFFA8C3AD)
-
+import com.example.wastewar.ui.userDetails.AddItemFac
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UserDetailsScreen(
-    rootNavController: NavController
+fun AddItemScreen(
+    mainNavController: NavController
 ) {
-    // Form state variables
-    var phoneNumber by remember { mutableStateOf("") }
-    var address by remember { mutableStateOf("") }
-    var city by remember { mutableStateOf("") }
-    var pinCode by remember { mutableStateOf("") }
-    var coordinates by remember { mutableStateOf(emptyList<Double>()) }
+    // Input state variables
+    var name by remember { mutableStateOf("") }
+    var quantity by remember { mutableStateOf("") }
+    var weight by remember { mutableStateOf("") }
 
-    var logoSelected by remember { mutableStateOf(false) }
+    // Dropdown state variables
+    val categories = listOf(
+        "dry", "wet", "food", "garden",
+        "electrical", "plastic", "paper", "metal", "other"
+    )
+    var selectedCategory by remember { mutableStateOf(categories.first()) }
+    var isCategoryExpanded by remember { mutableStateOf(false) }
 
     val context= LocalContext.current
 
-    val sessionManager=SessionManager(context)
+    val repo= AddItemRepo(SessionManager(context))
 
-    val repo=DetailsRepo(sessionManager)
-
-    val viewModel:DetailsVM= viewModel(
-        factory = DetailsVmFac(repo)
+    val viewModel:AddItemVM=viewModel(
+        factory = AddItemFac(repo)
     )
 
-    val userDetailState by viewModel.userDetailState.collectAsState()
+    val addItemState by viewModel.addItemState.collectAsState()
 
 
     var selectedImageUri by remember {
@@ -82,16 +80,16 @@ fun UserDetailsScreen(
 
         }
 
+    val logoSelected by remember { mutableStateOf(false) }
 
     val scrollState = rememberScrollState()
-
 
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
                     Text(
-                        text = "User Profile",
+                        text = "Add New Item",
                         fontWeight = FontWeight.Bold
                     )
                 },
@@ -111,7 +109,6 @@ fun UserDetailsScreen(
         ) {
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Profile Picture Placeholder
             Box(
                 modifier = Modifier
                     .size(110.dp)
@@ -166,51 +163,16 @@ fun UserDetailsScreen(
                 modifier = Modifier.padding(top = 8.dp)
             )
 
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
-            // Phone Number Input
+            // Item Name Input
             OutlinedTextField(
-                value = phoneNumber,
-                onValueChange = { phoneNumber = it },
-                label = { Text("Phone Number") },
+                value = name,
+                onValueChange = { name = it },
+                label = { Text("Item Name") },
                 leadingIcon = {
                     Icon(
-                        imageVector = Icons.Outlined.Phone,
-                        contentDescription = null
-                    )
-                },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
-                singleLine = true,
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Address Input
-            OutlinedTextField(
-                value = address,
-                onValueChange = { address = it },
-                label = { Text("Address") },
-                leadingIcon = {
-                    Icon(
-                        imageVector = Icons.Outlined.Home,
-                        contentDescription = null
-                    )
-                },
-                maxLines = 3,
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // City Input
-            OutlinedTextField(
-                value = city,
-                onValueChange = { city = it },
-                label = { Text("City") },
-                leadingIcon = {
-                    Icon(
-                        imageVector = Icons.Outlined.LocationCity,
+                        imageVector = Icons.Outlined.Label,
                         contentDescription = null
                     )
                 },
@@ -220,28 +182,97 @@ fun UserDetailsScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Pin Code Input
-            OutlinedTextField(
-                value = pinCode,
-                onValueChange = { pinCode = it },
-                label = { Text("PIN Code") },
-                leadingIcon = {
-                    Icon(
-                        imageVector = Icons.Outlined.Pin,
-                        contentDescription = null
-                    )
-                },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                singleLine = true,
+            // Quantity & Weight Row
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                // Quantity Input
+                OutlinedTextField(
+                    value = quantity,
+                    onValueChange = { quantity = it },
+                    label = { Text("Quantity") },
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Outlined.Numbers,
+                            contentDescription = null
+                        )
+                    },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    singleLine = true,
+                    modifier = Modifier.weight(1f)
+                )
+
+                // Weight Input
+                OutlinedTextField(
+                    value = weight,
+                    onValueChange = { weight = it },
+                    label = { Text("Weight (kg)") },
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Outlined.Scale,
+                            contentDescription = null
+                        )
+                    },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                    singleLine = true,
+                    modifier = Modifier.weight(1f)
+                )
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Category Dropdown
+            ExposedDropdownMenuBox(
+                expanded = isCategoryExpanded,
+                onExpandedChange = { isCategoryExpanded = !isCategoryExpanded },
                 modifier = Modifier.fillMaxWidth()
-            )
+            ) {
+                OutlinedTextField(
+                    value = selectedCategory.replaceFirstChar { it.uppercase() },
+                    onValueChange = {},
+                    readOnly = true,
+                    label = { Text("Category") },
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Outlined.Category,
+                            contentDescription = null
+                        )
+                    },
+                    trailingIcon = {
+                        ExposedDropdownMenuDefaults.TrailingIcon(expanded = isCategoryExpanded)
+                    },
+                    colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
+                    modifier = Modifier
+                        .menuAnchor()
+                        .fillMaxWidth()
+                )
+
+                ExposedDropdownMenu(
+                    expanded = isCategoryExpanded,
+                    onDismissRequest = { isCategoryExpanded = false }
+                ) {
+                    categories.forEach { category ->
+                        DropdownMenuItem(
+                            text = {
+                                Text(
+                                    text = category.replaceFirstChar { it.uppercase() }
+                                )
+                            },
+                            onClick = {
+                                selectedCategory = category
+                                isCategoryExpanded = false
+                            }
+                        )
+                    }
+                }
+            }
 
             Spacer(modifier = Modifier.height(32.dp))
 
             // Submit Button
             Button(
                 onClick = {
-
                     val imagePart =
                         selectedImageUri?.let {
 
@@ -252,13 +283,12 @@ fun UserDetailsScreen(
 
                         }
 
-                    viewModel.createUserProfile(
-                        phoneNumber = phoneNumber,
-                        city = city,
-                        pinCode = pinCode,
-                        address = address,
-                        profile = imagePart,
-                        coordinates = listOf(12.9716, 77.5946)
+                    viewModel.add_item(
+                        name = name,
+                        quantity = quantity,
+                        weight = weight,
+                        category = selectedCategory,
+                        image =imagePart
                     )
                 },
                 modifier = Modifier
@@ -266,7 +296,7 @@ fun UserDetailsScreen(
                     .height(50.dp)
             ) {
                 Text(
-                    text = "Save Details",
+                    text = "Add Item",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.SemiBold
                 )
@@ -275,22 +305,20 @@ fun UserDetailsScreen(
             Spacer(modifier = Modifier.height(24.dp))
         }
 
-        when(userDetailState){
-            is UserDetailState.Success -> {
-                rootNavController.navigate("home")
-            }
 
-            is UserDetailState.Error -> {
+        when(addItemState){
+            is AddItemState.Success -> {
+                mainNavController.navigate("home")
+            }
+            is AddItemState.Error -> {
                 // Handle error state
             }
-
-            is UserDetailState.Loading -> {
+            is AddItemState.Loading -> {
                 // Handle loading state
-            }
-            is UserDetailState.Idle -> {
+                }
+            is AddItemState.Idle -> {
                 // Handle idle state
             }
         }
-
     }
 }

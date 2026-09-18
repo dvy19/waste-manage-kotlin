@@ -1,16 +1,17 @@
-package com.example.wastewar.ui.auth
+package com.example.wastewar.ui
 
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.wastewar.Screens
+import com.example.wastewar.ui.auth.Login
+import com.example.wastewar.ui.auth.Register
+import com.example.wastewar.ui.auth.SplashScreen
+import com.example.wastewar.ui.user.HomeScreen
 
 
 @Composable
@@ -37,6 +38,24 @@ fun RootNavController(innerPadding: PaddingValues) {
             composable(Screens.SplashScreen.routes){
                 SplashScreen()
             }
+
+            composable(Screens.HomeScreen.routes){
+                HomeScreen(rootNavController)
+            }
+
+            composable(Screens.AddItemScreen.routes){
+
+
+            }
+
+            composable(Screens.ProfileScreen.routes){
+
+            }
+
+            composable(Screens.UserDetailsScreen.routes){
+
+            }
+
 
 
         }

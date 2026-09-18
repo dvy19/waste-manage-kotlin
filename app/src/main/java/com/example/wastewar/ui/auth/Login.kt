@@ -46,7 +46,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-
+import com.example.wastewar.Screens
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -249,7 +249,7 @@ fun Login(rootNavController: NavController){
 
                     is AuthState.Success -> {
 
-                        //rootNavController.navigate(Screens.UserDetailsScreen.route)
+                        rootNavController.navigate(Screens.HomeScreen.routes)
 
                         Text(
                             text = "Success",
