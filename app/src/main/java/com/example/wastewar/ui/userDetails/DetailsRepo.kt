@@ -41,4 +41,12 @@ class DetailsRepo(
         )
 
     }
+
+
+    suspend fun getUserProfile():Response<ProfileRes>{
+
+       return api.getProfile(
+           token = "Bearer ${sessionManager.getAccessToken()}"
+       )
+    }
 }

@@ -33,6 +33,12 @@ interface UserApiInterface {
 
     ) : Response<UserDetailsRes>
 
+    @GET("api/user/get-profile")
+    suspend fun getProfile(
+        @Header("Authorization") token: String
+    ) : Response<ProfileRes>
+
+
 
 
 

@@ -2,6 +2,7 @@ package com.example.wastewar.ui
 
 
 import com.example.wastewar.ui.auth.RegisterInterface
+import com.example.wastewar.ui.user.admin.AdminApiInterface
 import com.example.wastewar.ui.user.item.ItemApiInterface
 import com.example.wastewar.ui.userDetails.UserApiInterface
 import okhttp3.OkHttpClient
@@ -40,6 +41,10 @@ object ApiClient {
 
     val addItemApi:ItemApiInterface by lazy {
         retrofit.create(ItemApiInterface::class.java)
+    }
+
+    val adminApi:AdminApiInterface by lazy {
+        retrofit.create(AdminApiInterface::class.java)
     }
 
 }

@@ -15,16 +15,27 @@ import kotlinx.coroutines.launch
 sealed class UserDetailState{
     data object Idle: UserDetailState();
     data object Loading: UserDetailState();
-
     data class Success(var data: UserDetailsRes): UserDetailState();
     data class Error(val message:String): UserDetailState()
 }
+
+sealed class GetProfileState{
+    data object Idle: GetProfileState();
+    data object Loading: GetProfileState();
+    data class Success(var data: ProfileRes): GetProfileState();
+    data class Error(val message:String): GetProfileState()
+}
+
 class DetailsVM(
     private val repo: DetailsRepo
 ) : ViewModel() {
 
     private val _userDetailState = MutableStateFlow<UserDetailState>(UserDetailState.Idle)
     val userDetailState: StateFlow<UserDetailState> = _userDetailState.asStateFlow()
+
+    private val _getProfileState = MutableStateFlow<GetProfileState>(GetProfileState.Idle)
+    val getProfileState: StateFlow<GetProfileState> = _getProfileState.asStateFlow()
+
 
     fun createUserProfile(
         phoneNumber:String,
@@ -66,4 +77,34 @@ class DetailsVM(
             }
 
         }
+
+
+    fun get_profile(){
+
+
+
+        viewModelScope.launch{
+            _getProfileState.value=GetProfileState.Loading
+
+
+            try{
+
+                val response=repo.getUserProfile()
+
+                if(response.body()!=null && response.isSuccessful){
+                    _getProfileState.value=GetProfileState.Success(response.body()!!)
+                }
+                else{
+                    _getProfileState.value=GetProfileState.Error(response.message())
+                }
+            }
+            catch (e:Exception){
+                _getProfileState.value=GetProfileState.Error(e.message ?: "Something went wrong")
+                }
+            }
+
+
+        }
+
+
     }

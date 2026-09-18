@@ -14,7 +14,7 @@ import com.example.wastewar.ui.auth.SplashScreen
 import com.example.wastewar.ui.user.HomeScreen
 import com.example.wastewar.ui.user.item.AddItemScreen
 import com.example.wastewar.ui.user.item.TrackItem
-import com.example.wastewar.ui.user.profile.ProfileScreen
+import com.example.wastewar.ui.user.profile.UserProfileScreen
 import com.example.wastewar.ui.userDetails.UserDetailsScreen
 
 
@@ -50,7 +50,7 @@ fun RootNavController(innerPadding: PaddingValues) {
             }
 
             composable(Screens.ProfileScreen.routes){
-                ProfileScreen(rootNavController)
+                UserProfileScreen()
 
             }
 

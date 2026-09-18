@@ -38,12 +38,15 @@ import androidx.navigation.NavController
 import com.example.wastewar.Screens
 import com.example.wastewar.ui.auth.SessionManager
 import com.example.wastewar.ui.auth.SoftLeafGreen
+import com.example.wastewar.ui.user.admin.CentreListScreen
+import com.example.wastewar.ui.user.admin.SalesItemListRow
+import com.example.wastewar.ui.user.item.AddItemCard
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    mainNavController: NavController
+    rootNavController: NavController
 ){
 
 
@@ -227,7 +230,7 @@ fun HomeScreen(
             },
             floatingActionButton = {
                 FloatingActionButton(onClick = {
-                    mainNavController.navigate(Screens.AddItemScreen.routes)
+                    rootNavController.navigate(Screens.AddItemScreen.routes)
                 }) {
                     Icon(
                         imageVector = Icons.Default.Add,
@@ -243,6 +246,23 @@ fun HomeScreen(
                     .padding(innerPadding),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
+
+                item{
+                    AddItemCard(
+                        onClick = {
+                            rootNavController.navigate(Screens.AddItemScreen.routes)
+                        }
+                    )
+                }
+
+                item{
+                    SalesItemListRow()
+                }
+
+                item{
+                    CentreListScreen()
+                }
+
 
             }
 
