@@ -22,6 +22,19 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    packaging {
+        resources {
+            excludes += "/META-INF/gradle/incremental.annotation.processors"
+            excludes += "/META-INF/INDEX.LIST"
+            // Optional: common duplicate files when using Google/Java client libraries
+            excludes += "/META-INF/DEPENDENCIES"
+            excludes += "/META-INF/LICENSE"
+            excludes += "/META-INF/LICENSE.txt"
+            excludes += "/META-INF/NOTICE"
+            excludes += "/META-INF/NOTICE.txt"
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -31,6 +44,12 @@ android {
             )
         }
     }
+
+
+    configurations.configureEach {
+        exclude(group = "com.intellij", module = "annotations")
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11

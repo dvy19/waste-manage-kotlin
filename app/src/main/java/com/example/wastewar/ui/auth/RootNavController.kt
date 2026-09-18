@@ -23,15 +23,15 @@ fun RootNavController(innerPadding: PaddingValues) {
 
         NavHost(
             navController = rootNavController,
-            startDestination = Screens.SplashScreen.routes
+            startDestination = Screens.Register.routes
         ) {
 
             composable(Screens.Register.routes){
-                Register()
+                Register(rootNavController)
             }
 
             composable(Screens.Login.routes){
-                Login()
+                Login(rootNavController)
             }
 
             composable(Screens.SplashScreen.routes){

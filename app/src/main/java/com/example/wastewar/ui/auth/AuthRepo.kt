@@ -8,7 +8,6 @@ class AuthRepo {
     val api=ApiClient.registerApi
 
     suspend fun registerUser(req: RegisterReq):Response<RegisterRes>{
-
         return api.register(req)
     }
 

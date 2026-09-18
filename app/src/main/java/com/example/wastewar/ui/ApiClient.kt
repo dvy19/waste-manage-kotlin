@@ -2,6 +2,7 @@ package com.example.wastewar.ui
 
 
 import com.example.wastewar.ui.auth.RegisterInterface
+import com.example.wastewar.ui.userDetails.UserApiInterface
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -27,6 +28,11 @@ object ApiClient {
 
     val registerApi: RegisterInterface by lazy {
         retrofit.create(RegisterInterface::class.java)
+    }
+
+
+    val profileApi: UserApiInterface by lazy {
+        retrofit.create(UserApiInterface::class.java)
     }
 
 }
