@@ -7,6 +7,7 @@ import retrofit2.http.Headers
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
+import retrofit2.http.Path
 
 
 interface ItemApiInterface{
@@ -23,6 +24,13 @@ interface ItemApiInterface{
         @Part image:MultipartBody.Part?
 
     ) : Response<AddItemRes>
+
+    @POST("api/item/get-item-id/{trackingId}")
+    suspend fun trackItem(
+        @Header("Authorization") token: String,
+        @Path("trackingId") trackingId:String
+    ) : Response<AddItemRes>
+
 
 
 }

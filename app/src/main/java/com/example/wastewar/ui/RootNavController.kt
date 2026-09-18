@@ -12,6 +12,10 @@ import com.example.wastewar.ui.auth.Login
 import com.example.wastewar.ui.auth.Register
 import com.example.wastewar.ui.auth.SplashScreen
 import com.example.wastewar.ui.user.HomeScreen
+import com.example.wastewar.ui.user.item.AddItemScreen
+import com.example.wastewar.ui.user.item.TrackItem
+import com.example.wastewar.ui.user.profile.ProfileScreen
+import com.example.wastewar.ui.userDetails.UserDetailsScreen
 
 
 @Composable
@@ -19,8 +23,6 @@ fun RootNavController(innerPadding: PaddingValues) {
     val rootNavController = rememberNavController()
 
     val navBackStackEntry by rootNavController.currentBackStackEntryAsState()
-
-
 
         NavHost(
             navController = rootNavController,
@@ -44,16 +46,20 @@ fun RootNavController(innerPadding: PaddingValues) {
             }
 
             composable(Screens.AddItemScreen.routes){
-
-
+                AddItemScreen(rootNavController)
             }
 
             composable(Screens.ProfileScreen.routes){
+                ProfileScreen(rootNavController)
 
             }
 
-            composable(Screens.UserDetailsScreen.routes){
+            composable(Screens.UserDetailsScreen.routes) {
+                UserDetailsScreen(rootNavController)
+            }
 
+            composable(Screens.TrackItem.routes){
+                TrackItem(rootNavController)
             }
 
 

@@ -39,4 +39,13 @@ class AddItemRepo(
             image = image,
         )
     }
+
+    suspend fun trackItem(trackingId:String) : Response<AddItemRes>{
+
+        return api.trackItem(
+            token = "Bearer $token",
+            trackingId = trackingId
+
+        )
+    }
 }

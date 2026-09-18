@@ -38,4 +38,6 @@ sealed class Screens(val routes:String){
     data object HomeScreen:Screens("home")
     data object AddItemScreen:Screens("item")
     data object ProfileScreen:Screens("profile")
+
+    data object TrackItem:Screens("track-item")
 }
