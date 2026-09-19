@@ -48,4 +48,6 @@ sealed class Screens(val routes:String){
     data object MainScreen:Screens("main-screen")
 
     data object SaleItemDetailsScreen:Screens("sale_item_details/{id}")
+
+    data object RequestedItemsScreen:Screens("requested-items")
 }

@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.wastewar.Screens
 import com.example.wastewar.ui.auth.SessionManager
 import com.example.wastewar.ui.userDetails.DetailsRepo
 import com.example.wastewar.ui.userDetails.DetailsVM
@@ -37,7 +38,7 @@ import com.example.wastewar.ui.userDetails.UserStatsState
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UserProfileScreen(
-    mainNavController: NavController?,
+    mainNavController: NavController,
     userName: String = "Alex Morgan",
     userAddress: String = "742 Evergreen Terrace, Springfield",
     onCartClick: () -> Unit = {},
@@ -202,6 +203,16 @@ fun UserProfileScreen(
                         title = "Create Coupon",
                         onClick = onCreateCouponClick
                     )
+
+                    HorizontalDivider(
+                        modifier = Modifier.padding(horizontal = 16.dp),
+                        color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
+                    )
+                    ProfileMenuItem(
+                        icon = Icons.Outlined.RequestPage,
+                        title = "View Requested Items",
+                        onClick = {mainNavController.navigate(Screens.RequestedItemsScreen.routes)}
+                    )
                 }
             }
 
@@ -332,10 +343,4 @@ private fun ProfileMenuItem(
             modifier = Modifier.size(16.dp)
         )
     }
-}
-
-@Preview
-@Composable
-fun PreviewProfile(){
-    UserProfileScreen(mainNavController = null)
 }

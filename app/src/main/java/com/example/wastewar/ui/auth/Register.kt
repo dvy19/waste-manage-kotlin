@@ -20,7 +20,7 @@ import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
-import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.ArrowBackIosNew
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -44,18 +44,27 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.wastewar.Screens
 
+val buttonBack=Color(0xFF4F5B2A)
+val screenBack=Color(0xFFF5EFE3)
 
+
+/*
 // --- Custom Theme Colors ---
 val LightSage = Color(0xFFE8F5E9)
 val MutedSage = Color(0xFFD8F3DC)
 val SurfaceWhite = Color(0xFFFFFFFF)
 val SoftBackground = Color(0xFFF8F9FA)
 val TextMuted = Color(0xFF6C757D)
+
+ */
+
 
 // --- Plant App Color Palette ---
 val ForestGreen = Color(0xFF1E3A27)
@@ -67,7 +76,7 @@ val SageOutline = Color(0xFFA8C3AD)
 @Composable
 fun Register(rootNavController: NavController){
 
-    val repo= AuthRepo()
+    //val repo= AuthRepo()
 
     val viewModel: AuthVM= viewModel()
 
@@ -76,7 +85,7 @@ fun Register(rootNavController: NavController){
     var name by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    var role by remember { mutableStateOf("") }
+    //var role by remember { mutableStateOf("") }
 
     var isPasswordVisible by remember { mutableStateOf(false) }
 
@@ -102,7 +111,7 @@ fun Register(rootNavController: NavController){
                         rootNavController.popBackStack()
                     }) {
                         Icon(
-                            imageVector = Icons.Rounded.ArrowBack,
+                            imageVector = Icons.Rounded.ArrowBackIosNew,
                             contentDescription = "Back",
                             tint = ForestGreen
                         )
@@ -123,7 +132,7 @@ fun Register(rootNavController: NavController){
                 .fillMaxSize()
                 .padding(innerPadding)
                 .verticalScroll(scrollState)
-                .background(Color.White)
+                .background(screenBack)
                 .padding(horizontal = 24.dp, vertical = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
@@ -266,7 +275,8 @@ fun Register(rootNavController: NavController){
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(50.dp),
+                    .height(50.dp)
+                    .background(buttonBack),
                 shape = MaterialTheme.shapes.medium
             ) {
                 when (registerState) {
@@ -297,7 +307,7 @@ fun Register(rootNavController: NavController){
 
                     is AuthState.Success -> {
 
-                        rootNavController.navigate(Screens.HomeScreen.routes)
+                        rootNavController.navigate(Screens.UserDetailsScreen.routes)
 
                         Text(
                             text = "Success",
@@ -332,8 +342,11 @@ fun Register(rootNavController: NavController){
         }
     }
 
+}
 
-
-
+@Preview
+@Composable
+fun PreviewRegister(){
+    Register(rootNavController = rememberNavController())
 
 }

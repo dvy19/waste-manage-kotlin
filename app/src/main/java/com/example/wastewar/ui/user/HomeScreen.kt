@@ -52,7 +52,7 @@ import com.example.wastewar.ui.user.admin.CentreCard
 import com.example.wastewar.ui.user.admin.CentreListScreen
 import com.example.wastewar.ui.user.admin.GetCentreState
 import com.example.wastewar.ui.user.admin.SalesItemListRow
-import com.example.wastewar.ui.user.item.AddItemCard
+import com.example.wastewar.ui.user.item.HomeItemCard
 import kotlinx.coroutines.launch
 
 
@@ -270,9 +270,19 @@ fun HomeScreen(
             ) {
 
                 item{
-                    AddItemCard(
+                    HomeItemCard(
+                        title="Add Item",
                         onClick = {
                             mainNavController.navigate(Screens.AddItemScreen.routes)
+                        }
+                    )
+                }
+
+                item{
+                    HomeItemCard(
+                        title="Take Ai Suggestion ideas",
+                        onClick = {
+                            mainNavController.navigate(Screens.AiSuggestScreen.routes)
                         }
                     )
                 }

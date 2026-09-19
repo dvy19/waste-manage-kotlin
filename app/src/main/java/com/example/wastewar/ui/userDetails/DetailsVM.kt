@@ -1,5 +1,6 @@
 package com.example.wastewar.ui.userDetails
 
+import android.util.Log
 import androidx.compose.ui.text.MultiParagraph
 import androidx.lifecycle.ViewModel
 import okhttp3.MultipartBody
@@ -101,6 +102,11 @@ class DetailsVM(
 
                 val response=repo.getUserProfile()
 
+                Log.d("TAG", "userStats: ${response.code()}")
+                Log.d("TAG", "userStats: ${response.body()}")
+                Log.d("TAG", "userStats: ${response.isSuccessful}")
+                Log.d("TAG", "userStats: ${response.message()}")
+
                 if(response.body()!=null && response.isSuccessful){
                     _getProfileState.value=GetProfileState.Success(response.body()!!)
                 }
@@ -123,7 +129,18 @@ class DetailsVM(
 
             try{
                 val response=repo.get_user_stats()
+
+
+                Log.d("TAG", "userStats: ${response.code()}")
+                Log.d("TAG", "userStats: ${response.body()}")
+                Log.d("TAG", "userStats: ${response.isSuccessful}")
+
+
+
                 if(response.body()!=null && response.isSuccessful){
+
+
+
                     _userStatsState.value=UserStatsState.Success(response.body()!!)
                 }
                 else {

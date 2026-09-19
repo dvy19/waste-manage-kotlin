@@ -48,6 +48,11 @@ interface ItemApiInterface{
     ) : Response<AiSuggestionResponse>
 
 
+    @GET("api/item/get-user-items")
+    suspend fun getUserReqItems(
+        @Header("Authorization") token: String
+    ) : Response<AddItemRes>
+
 
 
 

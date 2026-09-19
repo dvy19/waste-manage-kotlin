@@ -11,7 +11,7 @@ data class AddItemReq(
 
 data class AddItemRes(
     val message:String,
-    val item:ItemData
+    val item:List<ItemData>
 )
 
 data class ItemData(
@@ -22,7 +22,11 @@ data class ItemData(
     val category: String,
     val status:String,
     val processingMethod:String,
-    val trackingId:String
+    val trackingId:String,
+    val createdAt:String,
+    val updatedAt:String,
+    val __v:Int,
+    val _id:String
 )
 
 

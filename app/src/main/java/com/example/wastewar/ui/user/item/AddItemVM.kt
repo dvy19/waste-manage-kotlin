@@ -38,6 +38,13 @@ sealed class AnalyzeWasteState{
     data class Error(val message:String):AnalyzeWasteState()
 }
 
+sealed class GetUserReqItemsState{
+    object Idle:GetUserReqItemsState()
+    object Loading:GetUserReqItemsState()
+    data class Success(val data:AddItemRes):GetUserReqItemsState()
+    data class Error(val message:String):GetUserReqItemsState()
+}
+
 
 class AddItemVM(
     private val repo: AddItemRepo
@@ -54,6 +61,9 @@ class AddItemVM(
 
     private val _analyzeWasteState = MutableStateFlow<AnalyzeWasteState>(AnalyzeWasteState.Idle)
     val analyzeWasteState: StateFlow<AnalyzeWasteState> = _analyzeWasteState.asStateFlow()
+
+    private val _getUserReqItemsState = MutableStateFlow<GetUserReqItemsState>(GetUserReqItemsState.Idle)
+    val getUserReqItemsState: StateFlow<GetUserReqItemsState> = _getUserReqItemsState.asStateFlow()
 
     fun add_item(
         name: String,
@@ -165,6 +175,28 @@ class AddItemVM(
         }
 
 
+
+    }
+
+
+    fun get_user_req_items(){
+        viewModelScope.launch {
+            _getUserReqItemsState.value=GetUserReqItemsState.Loading
+            try{
+                val response=repo.userAddItems()
+                if(response.isSuccessful && response.body()!=null){
+                    _getUserReqItemsState.value=GetUserReqItemsState.Success(response.body()!!)
+                }
+
+                else{
+                    _getUserReqItemsState.value=GetUserReqItemsState.Error(response.message())
+                }
+            }
+
+            catch (e:Exception){
+                _getUserReqItemsState.value=GetUserReqItemsState.Error(e.message ?: "Unknown Error")
+            }
+        }
 
     }
 

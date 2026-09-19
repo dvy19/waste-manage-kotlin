@@ -14,9 +14,11 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.wastewar.Screens
+import com.example.wastewar.Screens.RequestedItemsScreen
 import com.example.wastewar.ui.user.AiSuggestionScreen
 import com.example.wastewar.ui.user.CartScreen
 import com.example.wastewar.ui.user.HomeScreen
+import com.example.wastewar.ui.user.RequestedItemListScreen
 import com.example.wastewar.ui.user.SaleItemDetailsScreen
 import com.example.wastewar.ui.user.item.AddItemScreen
 import com.example.wastewar.ui.user.item.TrackItem
@@ -94,7 +96,13 @@ fun MainScreen(
                     id= id
                 )
             }
+
+            composable(Screens.RequestedItemsScreen.routes){
+                RequestedItemListScreen(mainNavController)
+            }
         }
+
+
 
     }
 

@@ -13,6 +13,7 @@ import com.example.wastewar.ui.auth.Register
 import com.example.wastewar.ui.auth.SplashScreen
 import com.example.wastewar.ui.user.AiSuggestionScreen
 import com.example.wastewar.ui.user.CartScreen
+import com.example.wastewar.ui.userDetails.UserDetailsScreen
 
 
 @Composable
@@ -40,6 +41,10 @@ fun RootNavController(innerPadding: PaddingValues) {
 
             composable(Screens.MainScreen.routes){
                 MainScreen(rootNavController , innerPadding)
+            }
+
+            composable(Screens.UserDetailsScreen.routes){
+                UserDetailsScreen(rootNavController)
             }
 
 

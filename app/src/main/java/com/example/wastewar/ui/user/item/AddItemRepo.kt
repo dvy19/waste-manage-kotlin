@@ -69,6 +69,13 @@ class AddItemRepo(
         )
     }
 
+    suspend fun userAddItems() : Response<AddItemRes>{
+        return  api.getUserReqItems(
+            token = "Bearer $token"
+        )
+    }
+
+
 
 
 }

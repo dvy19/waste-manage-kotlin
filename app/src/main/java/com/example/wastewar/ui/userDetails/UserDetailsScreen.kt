@@ -277,7 +277,7 @@ fun UserDetailsScreen(
 
         when(userDetailState){
             is UserDetailState.Success -> {
-                rootNavController.navigate("home")
+                rootNavController.navigate("main-screen")
             }
 
             is UserDetailState.Error -> {
