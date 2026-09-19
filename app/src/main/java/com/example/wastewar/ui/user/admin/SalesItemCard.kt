@@ -82,7 +82,7 @@ fun SalesItemCard(
             Spacer(modifier = Modifier.height(4.dp))
 
             Text(
-                text = item.price,
+                text = item.price.toString(),
                 style = MaterialTheme.typography.bodyLarge,
                 fontWeight = FontWeight.SemiBold,
                 color = MaterialTheme.colorScheme.primary
@@ -123,8 +123,7 @@ fun SalesItemListRow(
 
         is GetSalesItemState.Success ->{
 
-            val items=state.data.item
-
+            val items=state.data.items
             LazyRow(
                 modifier = modifier,
                 contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),

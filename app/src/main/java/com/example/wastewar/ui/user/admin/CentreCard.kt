@@ -65,7 +65,7 @@ fun CentreCard(
             Spacer(modifier = Modifier.height(12.dp))
 
             Text(
-                text = centre.name,
+                text = centre.name?:"",
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,

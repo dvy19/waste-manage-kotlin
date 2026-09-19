@@ -40,4 +40,10 @@ sealed class Screens(val routes:String){
     data object ProfileScreen:Screens("profile")
 
     data object TrackItem:Screens("track-item")
+
+    data object CartScreen:Screens("cart-screen")
+
+    data object AiSuggestScreen:Screens("ai-suggestion")
+
+    data object MainScreen:Screens("main-screen")
 }

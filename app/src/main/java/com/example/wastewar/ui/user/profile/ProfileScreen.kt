@@ -24,6 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.wastewar.ui.auth.SessionManager
 import com.example.wastewar.ui.userDetails.DetailsRepo
 import com.example.wastewar.ui.userDetails.DetailsVM
@@ -35,6 +36,7 @@ import com.example.wastewar.ui.userDetails.GetProfileState
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UserProfileScreen(
+    mainNavController: NavController?,
     userName: String = "Alex Morgan",
     userAddress: String = "742 Evergreen Terrace, Springfield",
     onCartClick: () -> Unit = {},
@@ -305,5 +307,5 @@ private fun ProfileMenuItem(
 @Preview
 @Composable
 fun PreviewProfile(){
-    UserProfileScreen()
+    UserProfileScreen(mainNavController = null)
 }

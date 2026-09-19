@@ -11,11 +11,8 @@ import com.example.wastewar.Screens
 import com.example.wastewar.ui.auth.Login
 import com.example.wastewar.ui.auth.Register
 import com.example.wastewar.ui.auth.SplashScreen
-import com.example.wastewar.ui.user.HomeScreen
-import com.example.wastewar.ui.user.item.AddItemScreen
-import com.example.wastewar.ui.user.item.TrackItem
-import com.example.wastewar.ui.user.profile.UserProfileScreen
-import com.example.wastewar.ui.userDetails.UserDetailsScreen
+import com.example.wastewar.ui.user.AiSuggestionScreen
+import com.example.wastewar.ui.user.CartScreen
 
 
 @Composable
@@ -24,7 +21,7 @@ fun RootNavController(innerPadding: PaddingValues) {
 
     val navBackStackEntry by rootNavController.currentBackStackEntryAsState()
 
-        NavHost(
+    NavHost(
             navController = rootNavController,
             startDestination = Screens.Register.routes
         ) {
@@ -41,26 +38,10 @@ fun RootNavController(innerPadding: PaddingValues) {
                 SplashScreen()
             }
 
-            composable(Screens.HomeScreen.routes){
-                HomeScreen(rootNavController)
+            composable(Screens.MainScreen.routes){
+                MainScreen(rootNavController , innerPadding)
             }
 
-            composable(Screens.AddItemScreen.routes){
-                AddItemScreen(rootNavController)
-            }
-
-            composable(Screens.ProfileScreen.routes){
-                UserProfileScreen()
-
-            }
-
-            composable(Screens.UserDetailsScreen.routes) {
-                UserDetailsScreen(rootNavController)
-            }
-
-            composable(Screens.TrackItem.routes){
-                TrackItem(rootNavController)
-            }
 
 
 

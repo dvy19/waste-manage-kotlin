@@ -2,6 +2,7 @@ package com.example.wastewar.ui.user.item
 
 import com.example.wastewar.ui.ApiClient
 import com.example.wastewar.ui.auth.SessionManager
+import com.example.wastewar.ui.user.AiSuggestionResponse
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -48,4 +49,26 @@ class AddItemRepo(
 
         )
     }
+
+
+    suspend fun getUserCart(): Response<CartItemRes>{
+
+        return api.getUserCart(
+            token = "Bearer $token"
+        )
+
+    }
+
+    suspend fun analyzeWaste(
+        image:MultipartBody.Part?
+    ):Response<AiSuggestionResponse>{
+
+        return api.analyzeWaste(
+            token = "Bearer $token",
+            image = image
+        )
+    }
+
+
+
 }

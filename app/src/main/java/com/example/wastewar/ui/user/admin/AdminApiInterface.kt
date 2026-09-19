@@ -5,7 +5,7 @@ import retrofit2.http.GET
 
 interface AdminApiInterface {
 
-    @GET("api/admin/get-sales-item")
+    @GET("api/admin/get-sales-items")
     suspend fun getSaleItem()  : Response<SalesItemRes>
 
     @GET("api/admin/get-centres")

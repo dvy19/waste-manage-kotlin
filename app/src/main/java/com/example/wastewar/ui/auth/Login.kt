@@ -249,7 +249,7 @@ fun Login(rootNavController: NavController){
 
                     is AuthState.Success -> {
 
-                        rootNavController.navigate(Screens.HomeScreen.routes)
+                        rootNavController.navigate(Screens.MainScreen.routes)
 
                         Text(
                             text = "Success",

@@ -24,3 +24,19 @@ data class ItemData(
     val processingMethod:String,
     val trackingId:String
 )
+
+
+data class CartItemRes(
+    var message:String,
+    var orders:List<CartItemsData>
+)
+data class CartItemsData(
+    var _id:String,
+    var idempotencyKey: String,
+    var user:String,
+    var item:String,
+    var quantity:String,
+    var amount:String,
+    var coupon: String,
+    var image:String?
+)

@@ -1,7 +1,9 @@
 package com.example.wastewar.ui.user.item
 
+import com.example.wastewar.ui.user.AiSuggestionResponse
 import okhttp3.MultipartBody
 import retrofit2.Response
+import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Headers
 import retrofit2.http.Multipart
@@ -30,6 +32,23 @@ interface ItemApiInterface{
         @Header("Authorization") token: String,
         @Path("trackingId") trackingId:String
     ) : Response<AddItemRes>
+
+
+    @GET("api/user//get-user-orders")
+    suspend fun getUserCart(
+        @Header("Authorization") token: String
+    ) : Response<CartItemRes>
+
+    @Multipart
+    @POST("api/item/analyze-waste")
+    suspend fun analyzeWaste(
+        @Header("Authorization") token: String,
+        @Part("image") image:MultipartBody.Part?
+    ) : Response<AiSuggestionResponse>
+
+
+
+
 
 
 

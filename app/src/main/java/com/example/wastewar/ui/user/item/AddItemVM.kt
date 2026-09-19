@@ -2,6 +2,7 @@ package com.example.wastewar.ui.user.item
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.wastewar.ui.user.AiSuggestionResponse
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -23,6 +24,20 @@ sealed class TrackItemState{
     data class Success(val data:AddItemRes):TrackItemState()
     data class Error(val message:String):TrackItemState()
 }
+sealed class GetCartItemState{
+    object Idle:GetCartItemState()
+    object Loading:GetCartItemState()
+    data class Success(val data:CartItemRes):GetCartItemState()
+    data class Error(val message:String):GetCartItemState()
+}
+
+sealed class AnalyzeWasteState{
+    object Idle:AnalyzeWasteState()
+    object Loading:AnalyzeWasteState()
+    data class Success(val data:AiSuggestionResponse):AnalyzeWasteState()
+    data class Error(val message:String):AnalyzeWasteState()
+}
+
 
 class AddItemVM(
     private val repo: AddItemRepo
@@ -34,6 +49,11 @@ class AddItemVM(
     private val _trackItemState = MutableStateFlow<TrackItemState>(TrackItemState.Idle)
     val trackItemState: StateFlow<TrackItemState> = _trackItemState.asStateFlow()
 
+    private val _getCartItemState = MutableStateFlow<GetCartItemState>(GetCartItemState.Idle)
+    val getCartItemState: StateFlow<GetCartItemState> = _getCartItemState.asStateFlow()
+
+    private val _analyzeWasteState = MutableStateFlow<AnalyzeWasteState>(AnalyzeWasteState.Idle)
+    val analyzeWasteState: StateFlow<AnalyzeWasteState> = _analyzeWasteState.asStateFlow()
 
     fun add_item(
         name: String,
@@ -91,6 +111,60 @@ class AddItemVM(
             }
 
         }
+
+    }
+
+    fun get_cart_items(){
+
+        viewModelScope.launch {
+            _getCartItemState.value=GetCartItemState.Loading
+
+            try{
+                val response=repo.getUserCart()
+
+
+                if(response.isSuccessful && response.body()!=null){
+                    _getCartItemState.value=GetCartItemState.Success(response.body()!!)
+                }
+
+                else{
+                    _getCartItemState.value=GetCartItemState.Error(response.message())
+                }
+            }
+            catch (e:Exception){
+                _getCartItemState.value=GetCartItemState.Error(e.message ?: "Unknown Error")
+            }
+        }
+
+
+
+    }
+
+    fun analyze_waste(image:MultipartBody.Part?){
+
+        viewModelScope.launch {
+
+            _analyzeWasteState.value=AnalyzeWasteState.Loading
+
+            try{
+                val response=repo.analyzeWaste(image)
+
+
+                if(response.isSuccessful && response.body()!=null){
+                    _analyzeWasteState.value=AnalyzeWasteState.Success(response.body()!!)
+                }
+
+                else{
+                    _analyzeWasteState.value=AnalyzeWasteState.Error(response.message())
+                }
+            }
+            catch (e:Exception){
+                _analyzeWasteState.value=AnalyzeWasteState.Error(e.message ?: "Unknown Error")
+            }
+
+        }
+
+
 
     }
 
