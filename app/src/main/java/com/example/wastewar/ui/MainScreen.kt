@@ -7,14 +7,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.wastewar.Screens
 import com.example.wastewar.ui.user.AiSuggestionScreen
 import com.example.wastewar.ui.user.CartScreen
 import com.example.wastewar.ui.user.HomeScreen
+import com.example.wastewar.ui.user.SaleItemDetailsScreen
 import com.example.wastewar.ui.user.item.AddItemScreen
 import com.example.wastewar.ui.user.item.TrackItem
 import com.example.wastewar.ui.user.profile.UserProfileScreen
@@ -73,6 +76,23 @@ fun MainScreen(
 
             composable(Screens.AiSuggestScreen.routes){
                 AiSuggestionScreen(mainNavController)
+            }
+
+            composable(
+                route = Screens.SaleItemDetailsScreen.routes,
+                arguments = listOf(
+                    navArgument("id") {
+                        type = NavType.StringType
+                    }
+                )
+            ) { backStackEntry ->
+
+                val id = backStackEntry.arguments?.getString("id")
+
+                SaleItemDetailsScreen(
+                    mainNavController = mainNavController,
+                    id= id
+                )
             }
         }
 

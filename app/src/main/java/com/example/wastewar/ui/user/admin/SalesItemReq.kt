@@ -16,6 +16,11 @@ data class SaleItemData(
     val tag: String
 )
 
+data class SingleSaleItem(
+    var message:String,
+    var item: SaleItemData
+)
+
 data class CentreRes(
     var message:String,
     var centres:List<CentreData>

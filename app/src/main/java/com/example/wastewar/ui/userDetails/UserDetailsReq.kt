@@ -44,3 +44,10 @@ data class UserData(
     val createdAt:String,
     val updatedAt: String,
 )
+
+
+data class UserStats(
+    val  user:String,
+    var itemsAdded:Int,
+    var points:Int
+)

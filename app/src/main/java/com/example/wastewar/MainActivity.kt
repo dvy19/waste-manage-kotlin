@@ -46,4 +46,6 @@ sealed class Screens(val routes:String){
     data object AiSuggestScreen:Screens("ai-suggestion")
 
     data object MainScreen:Screens("main-screen")
+
+    data object SaleItemDetailsScreen:Screens("sale_item_details/{id}")
 }

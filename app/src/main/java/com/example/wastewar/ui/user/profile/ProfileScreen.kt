@@ -30,6 +30,7 @@ import com.example.wastewar.ui.userDetails.DetailsRepo
 import com.example.wastewar.ui.userDetails.DetailsVM
 import com.example.wastewar.ui.userDetails.DetailsVmFac
 import com.example.wastewar.ui.userDetails.GetProfileState
+import com.example.wastewar.ui.userDetails.UserStatsState
 
 // --- MAIN SCREEN ---
 
@@ -55,9 +56,12 @@ fun UserProfileScreen(
 
     LaunchedEffect(Unit) {
         viewModel.get_profile()
+        viewModel.userStats()
     }
 
     val getProfileState by viewModel.getProfileState.collectAsState()
+
+    val userStats by viewModel.userStatsState.collectAsState()
 
     when(val state=getProfileState){
 
@@ -123,21 +127,47 @@ fun UserProfileScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             // 2. Stats Cards (1 Row x 2 Columns)
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                StatCard(
-                    number = "12",
-                    title = "Active Orders",
-                    modifier = Modifier.weight(1f)
-                )
-                StatCard(
-                    number = "05",
-                    title = "Coupons",
-                    modifier = Modifier.weight(1f)
-                )
+
+            when(val state=userStats){
+
+                is UserStatsState.Idle ->{
+
+                }
+
+                is UserStatsState.Loading ->{
+
+
+                }
+
+                is UserStatsState.Success ->{
+
+                    val stats=state.data
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        StatCard(
+                            number = stats.points.toString(),
+                            title = "Total Points Earned",
+                            modifier = Modifier.weight(1f)
+                        )
+                        StatCard(
+                            number = stats.itemsAdded.toString(),
+                            title = "Items Added",
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
+
+
+                }
+
+                is UserStatsState.Error ->{
+
+                }
+
             }
+
 
             Spacer(modifier = Modifier.height(24.dp))
 

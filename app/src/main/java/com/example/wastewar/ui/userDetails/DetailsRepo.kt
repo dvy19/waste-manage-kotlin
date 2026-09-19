@@ -49,4 +49,11 @@ class DetailsRepo(
            token = "Bearer ${sessionManager.getAccessToken()}"
        )
     }
+
+    suspend fun get_user_stats():Response<UserStats>{
+        return api.getUserStats(
+            token = "Bearer ${sessionManager.getAccessToken()}"
+        )
+
+    }
 }

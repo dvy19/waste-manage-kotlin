@@ -1,6 +1,7 @@
 package com.example.wastewar.ui.user.item
 
 import com.example.wastewar.ui.user.AiSuggestionResponse
+import com.example.wastewar.ui.user.admin.SingleSaleItem
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.GET
@@ -45,6 +46,8 @@ interface ItemApiInterface{
         @Header("Authorization") token: String,
         @Part("image") image:MultipartBody.Part?
     ) : Response<AiSuggestionResponse>
+
+
 
 
 

@@ -26,6 +26,13 @@ sealed class GetProfileState{
     data class Error(val message:String): GetProfileState()
 }
 
+sealed class UserStatsState{
+    data object Idle: UserStatsState();
+    data object Loading: UserStatsState();
+    data class Success(var data: UserStats): UserStatsState();
+    data class Error(val message:String): UserStatsState()
+}
+
 class DetailsVM(
     private val repo: DetailsRepo
 ) : ViewModel() {
@@ -35,6 +42,9 @@ class DetailsVM(
 
     private val _getProfileState = MutableStateFlow<GetProfileState>(GetProfileState.Idle)
     val getProfileState: StateFlow<GetProfileState> = _getProfileState.asStateFlow()
+
+    private val _userStatsState = MutableStateFlow<UserStatsState>(UserStatsState.Idle)
+    val userStatsState: StateFlow<UserStatsState> = _userStatsState.asStateFlow()
 
 
     fun createUserProfile(
@@ -106,5 +116,27 @@ class DetailsVM(
 
         }
 
+    fun userStats(){
+
+        viewModelScope.launch{
+            _userStatsState.value=UserStatsState.Loading
+
+            try{
+                val response=repo.get_user_stats()
+                if(response.body()!=null && response.isSuccessful){
+                    _userStatsState.value=UserStatsState.Success(response.body()!!)
+                }
+                else {
+                    _userStatsState.value = UserStatsState.Error(response.message())
+                }
+            }
+            catch (e:Exception){
+                _userStatsState.value=UserStatsState.Error(e.message ?: "Something went wrong")
+            }
+        }
+
 
     }
+
+
+}

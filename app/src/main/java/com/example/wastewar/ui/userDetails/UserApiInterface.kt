@@ -39,6 +39,13 @@ interface UserApiInterface {
     ) : Response<ProfileRes>
 
 
+    @GET("api/item/get-user-stats")
+    suspend fun getUserStats(
+        @Header("Authorization") token: String
+    ) : Response<UserStats>
+
+
+
 
 
 

@@ -59,7 +59,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    rootNavController: NavController
+    mainNavController: NavController
 ){
 
 
@@ -241,7 +241,7 @@ fun HomeScreen(
                         actionIconContentColor = Color.Black
                     ),
                     actions = {
-                        IconButton(onClick = {rootNavController.navigate(Screens.CartScreen.routes)}) {
+                        IconButton(onClick = {mainNavController.navigate(Screens.CartScreen.routes)}) {
                             Icon(
                                 imageVector = Icons.Default.Message,
                                 contentDescription = "Messages"
@@ -252,7 +252,7 @@ fun HomeScreen(
             },
             floatingActionButton = {
                 FloatingActionButton(onClick = {
-                    rootNavController.navigate(Screens.AiSuggestScreen.routes)
+                    mainNavController.navigate(Screens.AiSuggestScreen.routes)
                 }) {
                     Icon(
                         imageVector = Icons.Default.Cases,
@@ -272,13 +272,13 @@ fun HomeScreen(
                 item{
                     AddItemCard(
                         onClick = {
-                            rootNavController.navigate(Screens.AddItemScreen.routes)
+                            mainNavController.navigate(Screens.AddItemScreen.routes)
                         }
                     )
                 }
 
                 item{
-                    SalesItemListRow()
+                    SalesItemListRow(mainNavController = mainNavController)
                 }
 
 

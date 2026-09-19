@@ -27,6 +27,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.example.wastewar.ui.auth.SessionManager
 
@@ -35,11 +37,11 @@ import com.example.wastewar.ui.auth.SessionManager
 @Composable
 fun SalesItemCard(
     item: SaleItemData,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    mainNavController: NavController
 ) {
     Card(
-        onClick = onClick,
+        onClick = { mainNavController.navigate("sale_item_details/${item._id}") },
         modifier = modifier.width(180.dp),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(
@@ -95,7 +97,8 @@ fun SalesItemCard(
 @Composable
 fun SalesItemListRow(
 
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    mainNavController: NavController
 ) {
 
     val context= LocalContext.current
@@ -135,7 +138,7 @@ fun SalesItemListRow(
                 ) { item ->
                     SalesItemCard(
                         item = item,
-                        onClick = {  }
+                        mainNavController = mainNavController
                     )
                 }
             }
