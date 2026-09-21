@@ -100,6 +100,10 @@ fun MainScreen(
             composable(Screens.RequestedItemsScreen.routes){
                 RequestedItemListScreen(mainNavController)
             }
+
+            composable(Screens.CreateCouponScreen.routes){
+                ComposableCouponScreen(mainNavController)
+            }
         }
 
 

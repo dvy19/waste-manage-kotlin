@@ -48,11 +48,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.wastewar.ui.auth.SessionManager
+import com.example.wastewar.ui.user.CouponData
 import com.example.wastewar.ui.userDetails.CouponState
 import com.example.wastewar.ui.userDetails.DetailsRepo
 import com.example.wastewar.ui.userDetails.DetailsVM
 import com.example.wastewar.ui.userDetails.DetailsVmFac
+import com.example.wastewar.ui.userDetails.GetCouponState
 import com.example.wastewar.ui.userDetails.UserStatsState
 
 // Model representing a created coupon
@@ -65,7 +68,9 @@ data class Coupon(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ComposableCouponScreen() {
+fun ComposableCouponScreen(
+    mainNavController: NavController
+) {
 
     // State management
     var userPoints by remember { mutableIntStateOf(1250) }
@@ -87,11 +92,16 @@ fun ComposableCouponScreen() {
 
     LaunchedEffect(Unit) {
         viewModel.userStats()
+        viewModel.get_all_coupons()
     }
 
     val userStats by viewModel.userStatsState.collectAsState()
 
     val couponState by viewModel.couponState.collectAsState()
+
+    val getCouponState by viewModel.getCouponState.collectAsState()
+
+
 
     when(couponState){
         is CouponState.Idle->{
@@ -142,7 +152,7 @@ fun ComposableCouponScreen() {
                 }
                 is UserStatsState.Success->{
                     val stats=state.data
-                    userPoints=stats.points
+                    userPoints=stats.stats.points
 
                     item {
                         PointsBalanceCard(points = userPoints)
@@ -191,8 +201,24 @@ fun ComposableCouponScreen() {
                     )
                 }
             } else {
-                items(items = coupons, key = { it.id }) { coupon ->
-                    CouponItemCard(coupon = coupon)
+
+                when(val state=getCouponState){
+                    is GetCouponState.Idle->{
+
+                    }
+                    is GetCouponState.Loading->{
+
+                    }
+                    is GetCouponState.Success->{
+                        val coupons=state.data
+                        items(coupons) { coupon ->
+                            CouponItemCard(coupon = coupon)
+                        }
+
+                    }
+                    is GetCouponState.Error->{
+
+                    }
                 }
             }
         }
@@ -296,7 +322,7 @@ private fun CreateCouponCard(
 }
 
 @Composable
-private fun CouponItemCard(coupon: Coupon) {
+private fun CouponItemCard(coupon: CouponData) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),
@@ -319,7 +345,7 @@ private fun CouponItemCard(coupon: Coupon) {
             )
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = coupon.title,
+                    text = coupon.discount.toString(),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold
                 )
@@ -336,7 +362,7 @@ private fun CouponItemCard(coupon: Coupon) {
                 shape = RoundedCornerShape(8.dp)
             ) {
                 Text(
-                    text = "-${coupon.pointsCost} pts",
+                    text = "-${coupon.isUsed} pts",
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.onSecondaryContainer,
                     modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)

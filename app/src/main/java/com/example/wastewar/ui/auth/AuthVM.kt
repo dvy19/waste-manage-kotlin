@@ -26,6 +26,8 @@ class AuthVM(application: Application): AndroidViewModel(application) {
     private val _authState = MutableStateFlow<AuthState>(AuthState.Idle)
     val registerState: StateFlow<AuthState> = _authState.asStateFlow()
 
+    val sessionManager= SessionManager(application)
+
     val loginState: StateFlow<AuthState> = _authState.asStateFlow()
 
     fun register_user(req:RegisterReq){
@@ -58,6 +60,8 @@ class AuthVM(application: Application): AndroidViewModel(application) {
 
                 if(response.body()!=null && response.isSuccessful){
                     _authState.value=AuthState.Success(response.body()!!)
+
+                    sessionManager.saveTokens(response.body()!!.token)
 
                     }else{
                     _authState.value=AuthState.Error(response.message())

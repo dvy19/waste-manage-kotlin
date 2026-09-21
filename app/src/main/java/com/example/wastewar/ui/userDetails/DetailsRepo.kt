@@ -2,6 +2,7 @@ package com.example.wastewar.ui.userDetails
 
 import com.example.wastewar.ui.ApiClient
 import com.example.wastewar.ui.auth.SessionManager
+import com.example.wastewar.ui.user.CouponData
 import com.example.wastewar.ui.user.CouponRes
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
@@ -61,6 +62,11 @@ class DetailsRepo(
 
     suspend fun createUserCoupon(): Response<CouponRes>{
         return api.createCoupon(
+            token = "Bearer ${sessionManager.getAccessToken()}"
+        )
+    }
+    suspend fun getAllCoupons(): Response<List<CouponData>>{
+        return api.getCoupons(
             token = "Bearer ${sessionManager.getAccessToken()}"
         )
     }

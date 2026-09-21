@@ -7,6 +7,7 @@ import okhttp3.MultipartBody
 
 import androidx.lifecycle.viewModelScope
 import com.example.wastewar.ui.auth.AuthState
+import com.example.wastewar.ui.user.CouponData
 import com.example.wastewar.ui.user.CouponRes
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -41,6 +42,13 @@ sealed class CouponState{
     data class Success(var data: CouponRes): CouponState();
     data class Error(val message:String): CouponState()
 }
+
+sealed class GetCouponState{
+    data object Idle: GetCouponState();
+    data object Loading: GetCouponState();
+    data class Success(var data: List<CouponData>): GetCouponState();
+    data class Error(val message:String): GetCouponState()
+}
 class DetailsVM(
     private val repo: DetailsRepo
 ) : ViewModel() {
@@ -56,6 +64,9 @@ class DetailsVM(
 
     private val _couponState = MutableStateFlow<CouponState>(CouponState.Idle)
     val couponState: StateFlow<CouponState> = _couponState.asStateFlow()
+
+    private val _getCouponState = MutableStateFlow<GetCouponState>(GetCouponState.Idle)
+    val getCouponState: StateFlow<GetCouponState> = _getCouponState.asStateFlow()
 
 
 
@@ -176,9 +187,10 @@ class DetailsVM(
                 val response=repo.createUserCoupon()
 
 
-                Log.d("TAG", "userStats: ${response.code()}")
-                Log.d("TAG", "userStats: ${response.body()}")
-                Log.d("TAG", "userStats: ${response.isSuccessful}")
+                Log.d("TAG", "coupon: ${response.code()}")
+                Log.d("TAG", "coupon: ${response.body()}")
+                Log.d("TAG", "coupon: ${response.message()}")
+                Log.d("TAG", "coupon: ${response.isSuccessful}")
 
                 if(response.body()!=null && response.isSuccessful){
                     _couponState.value=CouponState.Success(response.body()!!)
@@ -194,9 +206,33 @@ class DetailsVM(
     }
 
 
+    fun get_all_coupons(){
+        viewModelScope.launch{
+            _getCouponState.value=GetCouponState.Loading
+            try{
+                val response=repo.getAllCoupons()
+                Log.d("TAG", "userStats: ${response.code()}")
+                Log.d("TAG", "userStats: ${response.body()}")
+                Log.d("TAG", "userStats: ${response.isSuccessful}")
+                if(response.body()!=null && response.isSuccessful){
+                    _getCouponState.value=GetCouponState.Success(response.body()!!)
+                }
+
+                else{
+                    _getCouponState.value=GetCouponState.Error(response.message())
+                }
+            }
+
+            catch (e:Exception){
+                _getCouponState.value=GetCouponState.Error(e.message ?: "Something went wrong")
+            }
+    }
+
+
 
 
     }
+}
 
 
 

@@ -19,35 +19,42 @@ data class UserDetailsRes(
 
 data class ProfileRes(
     val message:String,
-    val Profile:ProfileData
+    val Profile:ProfileData?
 )
 
 data class ProfileData(
-    val phoneNumber:String,
-    val city:String,
-    val pinCode:String,
     val address: String,
+    val city: String,
     val coordinates: List<Double>,
-    val createdAt:String,
+    val createdAt: String,
+    val phoneNumber: String,
+    val pinCode: String,
+    val profile: String,
     val updatedAt: String,
-    val _id:String,
-
-    val user:UserData
+    val user: UserData,
+    val __v: Int,
+    val _id: String
 )
 
 data class UserData(
-    val email:String,
-    val name:String,
-    val role:String,
-    val _id:String,
-    val password:String,
-    val createdAt:String,
-    val updatedAt: String,
+    val _id: String,
+    val role: String,
+    val name: String,
+    val email: String,
+    val password: String
 )
 
 
 data class UserStats(
-    val  user:String,
-    var itemsAdded:Int,
-    var points:Int
+    val message: String,
+    val stats:StatsData
 )
+
+data class StatsData(
+    val itemsAdded: Int,
+    val points: Int,
+    val user:String,
+    val __v: Int,
+    val _id:String
+)
+

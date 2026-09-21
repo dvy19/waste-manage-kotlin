@@ -19,10 +19,9 @@ class SessionManager(context: Context) {
     fun logout() { prefs.edit().clear().apply() }
 
 
-    fun saveTokens(access: String, refresh: String) {
+    fun saveTokens(access: String) {
         prefs.edit()
             .putString(KEY_ACCESS, access)
-            .putString(KEY_REFRESH, refresh)
             .putBoolean(KEY_IS_LOGGED_IN, true)
             .apply()
     }

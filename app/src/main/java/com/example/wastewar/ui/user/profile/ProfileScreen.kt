@@ -78,7 +78,7 @@ fun UserProfileScreen(
 
             val profile=state
 
-            ProfileHeaderCard(name = profile.data.Profile.user.name , address = profile.data.Profile.address)
+            ProfileHeaderCard(name = "profile.data.Profile!!.user.name" , address = "profile.data.Profile.address")
 
 
         }
@@ -149,12 +149,12 @@ fun UserProfileScreen(
                         horizontalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
                         StatCard(
-                            number = stats.points.toString(),
+                            number = stats.stats.points.toString(),
                             title = "Total Points Earned",
                             modifier = Modifier.weight(1f)
                         )
                         StatCard(
-                            number = stats.itemsAdded.toString(),
+                            number = stats.stats.itemsAdded.toString(),
                             title = "Items Added",
                             modifier = Modifier.weight(1f)
                         )
@@ -201,7 +201,7 @@ fun UserProfileScreen(
                     ProfileMenuItem(
                         icon = Icons.Outlined.ConfirmationNumber,
                         title = "Create Coupon",
-                        onClick = onCreateCouponClick
+                        onClick = { mainNavController.navigate(Screens.CreateCouponScreen.routes) }
                     )
 
                     HorizontalDivider(

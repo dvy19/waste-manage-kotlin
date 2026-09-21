@@ -1,5 +1,6 @@
 package com.example.wastewar.ui.userDetails
 
+import com.example.wastewar.ui.user.CouponData
 import com.example.wastewar.ui.user.CouponRes
 import retrofit2.http.POST
 
@@ -51,6 +52,12 @@ interface UserApiInterface {
     suspend fun createCoupon(
         @Header("Authorization") token: String,
     ): Response<CouponRes>
+
+    @GET("api/item/get-user-coupons")
+    suspend fun getCoupons(
+        @Header("Authorization") token: String,
+    ): Response<List<CouponData>>
+
 
 
 
