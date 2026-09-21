@@ -7,6 +7,7 @@ import okhttp3.MultipartBody
 
 import androidx.lifecycle.viewModelScope
 import com.example.wastewar.ui.auth.AuthState
+import com.example.wastewar.ui.user.CouponRes
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -34,6 +35,12 @@ sealed class UserStatsState{
     data class Error(val message:String): UserStatsState()
 }
 
+sealed class CouponState{
+    data object Idle: CouponState();
+    data object Loading: CouponState();
+    data class Success(var data: CouponRes): CouponState();
+    data class Error(val message:String): CouponState()
+}
 class DetailsVM(
     private val repo: DetailsRepo
 ) : ViewModel() {
@@ -46,6 +53,10 @@ class DetailsVM(
 
     private val _userStatsState = MutableStateFlow<UserStatsState>(UserStatsState.Idle)
     val userStatsState: StateFlow<UserStatsState> = _userStatsState.asStateFlow()
+
+    private val _couponState = MutableStateFlow<CouponState>(CouponState.Idle)
+    val couponState: StateFlow<CouponState> = _couponState.asStateFlow()
+
 
 
     fun createUserProfile(
@@ -156,4 +167,36 @@ class DetailsVM(
     }
 
 
-}
+    fun create_coupon(){
+
+        viewModelScope.launch{
+            _couponState.value=CouponState.Loading
+
+            try{
+                val response=repo.createUserCoupon()
+
+
+                Log.d("TAG", "userStats: ${response.code()}")
+                Log.d("TAG", "userStats: ${response.body()}")
+                Log.d("TAG", "userStats: ${response.isSuccessful}")
+
+                if(response.body()!=null && response.isSuccessful){
+                    _couponState.value=CouponState.Success(response.body()!!)
+                }
+                else {
+                    _couponState.value = CouponState.Error(response.message())
+                }
+            }
+            catch (e:Exception){
+                _couponState.value=CouponState.Error(e.message ?: "Something went wrong")
+                }
+        }
+    }
+
+
+
+
+    }
+
+
+
