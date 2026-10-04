@@ -1,5 +1,6 @@
 package com.example.wastewar.ui.userDetails
 
+import android.util.Log
 import com.example.wastewar.ui.ApiClient
 import com.example.wastewar.ui.auth.SessionManager
 import com.example.wastewar.ui.user.CouponData
@@ -31,6 +32,8 @@ class DetailsRepo(
         profile: MultipartBody.Part?
 
     ) : Response<UserDetailsRes>{
+
+        Log.d("TAG", "create_profile: ${sessionManager.getAccessToken()}")
 
         return api.createProfile(
             token = "Bearer ${sessionManager.getAccessToken()}",

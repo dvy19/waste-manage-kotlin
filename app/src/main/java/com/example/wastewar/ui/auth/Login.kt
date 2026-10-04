@@ -19,7 +19,7 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
-import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.ArrowBackIosNew
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -43,9 +43,11 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.wastewar.Screens
 
 
@@ -53,7 +55,7 @@ import com.example.wastewar.Screens
 @Composable
 fun Login(rootNavController: NavController){
 
-    val repo= AuthRepo()
+    //val repo= AuthRepo()
 
     val viewModel: AuthVM= viewModel()
 
@@ -88,7 +90,7 @@ fun Login(rootNavController: NavController){
                         rootNavController.popBackStack()
                     }) {
                         Icon(
-                            imageVector = Icons.Rounded.ArrowBack,
+                            imageVector = Icons.Rounded.ArrowBackIosNew,
                             contentDescription = "Back",
                             tint = ForestGreen
                         )
@@ -116,7 +118,7 @@ fun Login(rootNavController: NavController){
         ) {
             // Header Title
             Text(
-                text = "Create Account",
+                text = "Login to Your Account",
                 color=Color.Black,
                 style = MaterialTheme.typography.headlineLarge,
                 //color = MaterialTheme.colorScheme.onBackground
@@ -268,14 +270,14 @@ fun Login(rootNavController: NavController){
                 horizontalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = "Already have an account?",
+                    text = "New Here?",
                     color=Color.Black,
                     style = MaterialTheme.typography.bodyMedium,
                     // color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
-                TextButton(onClick = {  }) {
+                TextButton(onClick = { rootNavController.navigate(Screens.Register.routes) }) {
                     Text(
-                        text = "Log In",
+                        text = "Create Account",
                         color=Color.Black,
                         style = MaterialTheme.typography.labelLarge
                     )
@@ -284,8 +286,11 @@ fun Login(rootNavController: NavController){
         }
     }
 
+}
 
-
-
+@Preview
+@Composable
+fun PreviewLogin() {
+    Login(rootNavController = rememberNavController())
 
 }

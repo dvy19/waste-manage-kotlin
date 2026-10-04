@@ -93,14 +93,28 @@ class DetailsVM(
                     coordinates = coordinates
                 )
 
+
+                Log.d("TAG", "userStats: ${response.code()}")
+                Log.d("TAG", "userStats: ${response.body()}")
+                Log.d("TAG", "userStats: ${response.isSuccessful}")
+                Log.d("TAG", "userStats: ${response.message()}")
+                Log.d("TAG", "userStats: ${response.errorBody()?.string()}")
+
+
+
                 if(response.body()!=null && response.isSuccessful){
                     _userDetailState.value=UserDetailState.Success(response.body()!!)
                 }
                 else{
+
+                    Log.d("TAG", "userStats: ${response.message()}")
+                    Log.d("TAG", "userStats: ${response.errorBody()?.string()}")
                     _userDetailState.value=UserDetailState.Error(response.message())
                 }
             }
             catch (e:Exception){
+                Log.d("TAG", "userStats: ${e.message}")
+                Log.d("TAG", "userStats: ${e.stackTrace}")
                 _userDetailState.value=UserDetailState.Error(e.message ?: "Something went wrong")
             }
 

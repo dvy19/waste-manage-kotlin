@@ -265,32 +265,52 @@ fun UserDetailsScreen(
                     .fillMaxWidth()
                     .height(50.dp)
             ) {
-                Text(
-                    text = "Save Details",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.SemiBold
-                )
+
+                when(userDetailState){
+                    is UserDetailState.Success -> {
+
+                        rootNavController.navigate("main-screen")
+
+                        Text(
+                            text = "Completed",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                    }
+
+                    is UserDetailState.Error -> {
+                        // Handle error state
+                        Text(
+                            text = "Error",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                    }
+
+                    is UserDetailState.Loading -> {
+                        // Handle loading state
+                        Text(
+                            text = "Loading",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                    }
+                    is UserDetailState.Idle -> {
+                        // Handle idle state
+                        Text(
+                            text = "Submit",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                    }
+                }
+
             }
 
             Spacer(modifier = Modifier.height(24.dp))
         }
 
-        when(userDetailState){
-            is UserDetailState.Success -> {
-                rootNavController.navigate("main-screen")
-            }
 
-            is UserDetailState.Error -> {
-                // Handle error state
-            }
-
-            is UserDetailState.Loading -> {
-                // Handle loading state
-            }
-            is UserDetailState.Idle -> {
-                // Handle idle state
-            }
-        }
 
     }
 }

@@ -41,6 +41,11 @@ class AuthVM(application: Application): AndroidViewModel(application) {
 
                 if(response.body()!=null && response.isSuccessful){
                     _authState.value=AuthState.Success(response.body()!!)
+
+                    Log.d("TAG", "login_user: ${response.body()!!.token}")
+
+                    sessionManager.saveTokens(response.body()!!.token)
+
                 }else{
                     _authState.value=AuthState.Error(response.message())
                 }
@@ -61,6 +66,7 @@ class AuthVM(application: Application): AndroidViewModel(application) {
                 if(response.body()!=null && response.isSuccessful){
                     _authState.value=AuthState.Success(response.body()!!)
 
+                    Log.d("TAG", "login_user: ${response.body()!!.token}")
                     sessionManager.saveTokens(response.body()!!.token)
 
                     }else{

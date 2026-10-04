@@ -30,7 +30,7 @@ fun createImagePart(
     val requestBody = file.asRequestBody("image/*".toMediaType())
 
     return MultipartBody.Part.createFormData(
-        "logo",
+        "profile",
         file.name,
         requestBody
     )

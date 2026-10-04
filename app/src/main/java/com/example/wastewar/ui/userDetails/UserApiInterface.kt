@@ -30,7 +30,7 @@ interface UserApiInterface {
         @Part("pinCode") pinCode: RequestBody,
         @Part("address") address: RequestBody,
         @Part("coordinates") coordinates: RequestBody,
-        @Part("profile") profile: MultipartBody.Part?
+        @Part profile: MultipartBody.Part?
 
 
     ) : Response<UserDetailsRes>
